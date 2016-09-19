@@ -1,0 +1,32 @@
+function x = R0(data, n)
+% Base case
+if n == 0
+    x = 0;
+    return;
+end
+
+% Check if any vertex is without neighbors. This is this 
+% case if the sum of its row and column is equal to zero
+colsum = sum(data, 2);
+i = find(~colsum, 1);
+if i
+% Delete row and column corresponding to index i
+    data(i,:) = [];
+    data(:,i) = [];
+    x = 1 + R0(data, n-1);
+    return;
+end
+
+% Same logic used here. The vertex of max degree is the 
+% one with the largest column and row sum
+[~,i] = max(colsum);
+% Find neighbors
+ngb = find(data(1,:));
+D1 = data;
+D1(ngb,:) = [];
+D1(:,ngb) = [];
+
+
+
+
+
