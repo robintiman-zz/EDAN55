@@ -1,4 +1,4 @@
-function [x, count] = R0(data, n, count)
+function [x, count] = R1(data, n, count)
 count = count + 1;
 % Base case
 if n == 0
@@ -6,14 +6,25 @@ if n == 0
     return
 end
 
+
+% % Added to R1
+rowsum = sum(data, 2);
+i = find(rowsum==1,1);
+if i
+    [data, nbrOfNgbs] = deleteNgb(data, i);
+    [derp1, count] = R1(data, n-nbrOfNgbs, count);
+    x = 1 + derp1;
+    return
+end
+
 % Check if any vertex is without neighbors. This is this
 % case if the sum of its row and column is equal to zero
-rowsum = sum(data, 2);
 i = find(~rowsum, 1);
 if i
     % Delete row and column corresponding to index i
     data = deleteRowAndCol(data,i);
-    x = 1 + R0(data, n-1, count);
+    [derp1, count] = R1(data, n-1, count);
+    x = 1 + derp1;
     return
 end
 
@@ -21,16 +32,13 @@ end
 % one with the largest column and row sum
 [~,i] = max(rowsum);
 % Find and delete neighbors
-ngb = find(data(i,:));
-ngb = [ngb i];
 temp = data;
-temp = deleteRowAndCol(temp, ngb);
+[temp, nbrOfNgbs] = deleteNgb(temp,i);
 % Finally, delete the single max vertex only
 data = deleteRowAndCol(data, i);
-
-
-x = max(1+R0(temp, n-numel(ngb), count), R0(data, n-1, count));
-[x, count]
+[derp1, count] = R1(temp, n-nbrOfNgbs, count);
+[derp2, count] = R1(data, n-1, count);
+x = max(1+derp1, derp2);
 
 
 

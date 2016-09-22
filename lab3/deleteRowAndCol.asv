@@ -1,4 +1,0 @@
-function [arr] = deleteRowAndCol(data, i)
-arr = data;
-arr(i,:) = [];
-data(:,i) = [];

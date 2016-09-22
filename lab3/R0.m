@@ -1,4 +1,5 @@
-function x = R0(data, n)
+function [x, count] = R0(data, n, count)
+count = count + 1;
 % Base case
 if n == 0
     x = 0;
@@ -12,7 +13,8 @@ i = find(~rowsum, 1);
 if i
     % Delete row and column corresponding to index i
     data = deleteRowAndCol(data,i);
-    x = 1 + R0(data, n-1);
+    [derp1, count] = R0(data, n-1, count);
+    x = 1 + derp1;
     return
 end
 
@@ -26,10 +28,12 @@ temp = data;
 temp = deleteRowAndCol(temp, ngb);
 % Finally, delete the single max vertex only
 data = deleteRowAndCol(data, i);
-x = max(1+R0(temp, n-numel(ngb)), R0(data, n-1));
+
+[derp1, count] = R0(temp, n-numel(ngb), count);
+[derp2, count] = R0(data, n-1, count);
 
 
-
+x = max(1+derp1, derp2);
 
 
 
