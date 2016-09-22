@@ -7,9 +7,8 @@ if isempty(data)
     return
 end
 
-rowsum = sum(data, 2);
-
 % Added for R2
+rowsum = sum(data, 2);
 i = find(rowsum==2,1);
 ngb = find(data(i,:));
 if i
@@ -20,6 +19,7 @@ if i
 end
 
 % % Added for R1
+rowsum = sum(data, 2);
 i = find(rowsum==1,1);
 if i
     data = deleteAndFindNgb(data, i);
@@ -30,6 +30,7 @@ end
 
 % Check if any vertex is without neighbors. This is this
 % case if the sum of its row and column is equal to zero
+rowsum = sum(data, 2);
 i = find(~rowsum, 1);
 if i
     % Delete row and column corresponding to index i
@@ -41,6 +42,7 @@ end
 
 % Same logic used here. The vertex of max degree is the
 % one with the largest column and row sum
+rowsum = sum(data, 2);
 [~,i] = max(rowsum);
 % Find and delete neighbors
 temp = data;

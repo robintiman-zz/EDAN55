@@ -9,11 +9,7 @@ else
     edges = unique(edges);
     ind = find(edges==i,1);
     edges(ind) = [];
-    gone = [ngb i];
-    for k=1:3
-        edges = edges - (edges > gone(k));
-    end
-    data = deleteNgb(data,i, ngb);
     data = addNode(data, edges);
+    data = deleteNgb(data,i, ngb);
     return
 end
