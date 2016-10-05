@@ -1,0 +1,2 @@
+function Pr = calcpr(P)
+r = input('Enter r value: ');

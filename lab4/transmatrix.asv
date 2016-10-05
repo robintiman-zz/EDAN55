@@ -1,0 +1,11 @@
+function P = transmatrix(nodes)
+P = zeros(numel(nodes), numel(nodes));
+a = 0.85;
+for i=1:numel(nodes)
+    if (nodes{i
+    indices = unique(nodes{i});
+    count = histcounts(nodes{i}, numel(indices));
+    prob = count*a/numel(nodes{i});
+    P(i,indices) = prob;
+    P(indices, i) = prob;
+end

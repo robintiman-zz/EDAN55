@@ -1,46 +1,42 @@
-file = fopen('medium.txt');
+file = fopen('p2p.txt');
 V = fscanf(file, '%d');
-totalEdges = zeros(1, V(1));
+n = V(1);
+nodes = preparegraph(V);
 
-for i=2:2:numel(V)
-    totalEdges(V(i)+1) = totalEdges(V(i)+1) + 1;
-    if (V(i) == 19)
-        V(i)
-    end
-end
-
-nodes = cell(V(1), 1);
-count = 1;
-tempNode = 0;
-for i=2:2:numel(V)
-    index = V(i) + 1;
-    if (index ~= tempNode)
-        count = 1;
-    end
-    
-    if (isempty(nodes{index}))
-        nodes{index} = zeros(1, totalEdges(index));
-    end
-    nodes{index}(count) = V(i+1) + 1;
-    
-    tempNode = index;
-    count = count + 1;
-end
-
-itr = input('Enter number of iterations: ');
-%Simulation
-currentNode = 1;
-visits = zeros(1,V(1));
+% Part 1
+current = 1;
+visits = zeros(1, n);
 visits(1) = 1;
-for i=1:itr
-    currentNode;
-    %Getting bored, jump to new random node
+itr = 0;
+d = 1;
+now = 1;
+while (d > 0.00001)
+    % Getting bored, jump to new random node
     if (rand < 0.15)
-        currentNode = randi(V(1));
+        current = randi(n);
     else
-        currentNode = calcnext(currentNode, nodes);
+        current = calcnext(current, nodes);
     end
-    visits(currentNode) = visits(currentNode) + 1;
+    visits(current) = visits(current) + 1;
+    itr = itr + 1;
+    prev = now;
+    now = visits/itr;
+    d = max(abs(prev - now));
 end
+[freq, i] = sort(visits/(itr));
+Disp(freq, i)
 
-freq = visits/(itr+1)
+% Part 2
+[H, D] = hypermatrix(nodes);
+onesmatrix = ones(n, n);
+alpha = 0.85;
+p = ones(1, n)/n;
+P = alpha*(H + D) + ((1-alpha)/n)*onesmatrix;
+r = 10000;
+p1 = zeros(1, n);
+p1(1,:) = sum(p);
+H = sparse(H);
+for i=1:r
+    p = alpha*p*H + alpha*p*D + ((1-alpha)/n)*p1;
+end
+Disp(p)

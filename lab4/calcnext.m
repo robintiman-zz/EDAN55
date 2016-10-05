@@ -1,7 +1,7 @@
 function node = calcnext(current, nodes)
 elem = numel(nodes{current});
 if (elem == 0)
-    node = randi(numel(nodes));
+    node = current;
     return
 end
 node = nodes{current}(randi(elem));
