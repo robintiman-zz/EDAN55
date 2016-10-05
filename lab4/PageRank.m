@@ -43,5 +43,5 @@ for i=1:r
     p = alpha*p*H + alpha*p*D + ((1-alpha)/n)*p1;
 end
 % Print the number of multiplications and p 
-r*(3*n+n^2+numel(H))
+mult = r*(3*n+n^2+numel(H))
 p
