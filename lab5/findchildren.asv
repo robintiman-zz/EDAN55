@@ -1,0 +1,9 @@
+function children = findchildren(treepairs, root, n)
+children = cell(1, n);
+for i=1:numel(treepairs)
+    parent = treepairs(i);
+    child = treepairs(parent+1);
+    if find(root==parent)
+        children{root} = [children{root} treepairs(child)];
+    end
+end
