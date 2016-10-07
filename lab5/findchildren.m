@@ -1,16 +1,20 @@
-function children = findchildren(treepairs, parents, n)
+function children = findchildren(treepairs, root, n)
 children = cell(1, n);
-parents = zeros(1,n-1);
-parents(1) = root;
-for i=1:numel(treepairs)
-    p1 = treepairs(i);
-    p2 = treepairs(p1+1);
+parent = zeros(1,n);
+j = 1;
+parent(1) = root;
+while j < n
+    p1 = treepairs(j,1);
+    p2 = treepairs(j,2);
     % Check to see if parent is part of root
-    if find(parents==p1)
-        parents = [parents p1];
+    if find(parent==p1)
         % Add the child to all roots
-        children{parents} = [children{parents} treepairs(p2)];
-    elseif find(parents==p2)
-        parents = [parents p1];
-            
+        children{p1} = [children{p1} p2];
+        parent(j) = p2;
+    elseif find(parent==p2)
+        % Same here
+        children{p2} = [children{p2} p1];
+        parent(j) = p1;
+    end
+    j = j + 1;
 end

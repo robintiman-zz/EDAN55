@@ -1,0 +1,12 @@
+function set = findallindsets(edgelist)
+n = size(edgelist);
+for i=1:n(1)
+    n1 = edgelist(i,1);
+    n2 = edgelist(i,2);
+    if n1 && n2 
+end
+
+sz = max(edgelist(:));
+A = sparse(edgelist(:,1), edgelist(:,2), 1, sz, sz);
+A = full(A);
+A = A + A';
